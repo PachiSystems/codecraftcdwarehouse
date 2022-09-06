@@ -27,7 +27,7 @@ class PaymentService {
 class Warehouse {
     constructor(public catalogue: CompactDisc[]) {}
 
-    addStock(cd: CompactDisc | CompactDisc[]) {
+    addToCatalogue(cd: CompactDisc | CompactDisc[]) {
         if (Array.isArray(cd)) {
             this.catalogue = this.catalogue.concat(cd);
         } else {
@@ -116,21 +116,21 @@ describe('Warehouse', () => {
     it('should be able to add a CD to the stock list', () => {
         const warehouse = new Warehouse([]);
         const cd = new CD('The Beatles', 'Abbey Road', 10, 9.99);
-        warehouse.addStock(cd);
+        warehouse.addToCatalogue(cd);
         expect(warehouse.getStockList()).toContain(cd);
     });
     it('should be able to add multiple CDs to the stock list', () => {
         const warehouse = new Warehouse([]);
         const cd1 = new CD('The Beatles', 'Abbey Road', 10, 9.99);
         const cd2 = new CD('The Beatles', 'Revolver', 10, 9.99);
-        warehouse.addStock([cd1, cd2]);
+        warehouse.addToCatalogue([cd1, cd2]);
         expect(warehouse.getStockList()).toContain(cd1);
         expect(warehouse.getStockList()).toContain(cd2);
     });
     it('should be able to remove a CD from the stock list', () => {
         const warehouse = new Warehouse([]);
         const cd = new CD('The Beatles', 'Abbey Road', 10, 9.99);
-        warehouse.addStock(cd);
+        warehouse.addToCatalogue(cd);
         warehouse.removeStock(cd);
         expect(warehouse.getStockList()).not.toContain(cd);
     });
@@ -138,7 +138,7 @@ describe('Warehouse', () => {
         const warehouse = new Warehouse([]);
         const cd1 = new CD('The Beatles', 'Abbey Road', 10, 9.99);
         const cd2 = new CD('The Beatles', 'Revolver', 10, 9.99);
-        warehouse.addStock([cd1, cd2]);
+        warehouse.addToCatalogue([cd1, cd2]);
         expect(warehouse.getStockByTitle('Abbey Road')).toContain(cd1);
         expect(warehouse.getStockByTitle('Revolver')).toContain(cd2);
     });
@@ -147,7 +147,7 @@ describe('Warehouse', () => {
         const cd1 = new CD('The Beatles', 'Abbey Road', 10, 9.99);
         const cd2 = new CD('The Beatles', 'Revolver', 10, 9.99);
         const cd3 = new CD('The Rolling Stones', 'Sticky Fingers', 10, 9.99);
-        warehouse.addStock([cd1, cd2, cd3]);
+        warehouse.addToCatalogue([cd1, cd2, cd3]);
         expect(warehouse.getStockByArtist('The Beatles')).toContain(cd1);
         expect(warehouse.getStockByArtist('The Beatles')).toContain(cd2);
         expect(warehouse.getStockByArtist('The Rolling Stones')).toContain(cd3);
