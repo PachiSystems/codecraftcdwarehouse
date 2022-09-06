@@ -56,6 +56,8 @@ class CD {
         if(payment.pay(this.price, cardDetails)) {
             if (this.stock > 0) {
                 this.stock--;
+            } else {
+                throw new Error("Out of stock");
             }
         }
     }
@@ -76,7 +78,7 @@ describe('Compact Disc', () => {
                 cd.buy(payment, cardDetails);
                 expect(cd.stock).toBe(0);
             });
-            it('should not reduce stock if stock is 0', () => {
+            it('should throw an out of stock error if stock is 0', () => {
                 const cd = new CD('The Beatles', 'Abbey Road', 0, 10);
                 const payment = new PaymentService(true);
                 const cardDetails = {
@@ -85,8 +87,7 @@ describe('Compact Disc', () => {
                     expiry: '01/20',
                     cvv: '123',
                 };
-                cd.buy(payment, cardDetails);
-                expect(cd.stock).toBe(0);
+                expect(() => cd.buy(payment, cardDetails)).toThrow('Out of stock');
             });
         });
         describe('payment rejected', () => {
