@@ -5,6 +5,25 @@ type CompactDisc = {
     price: number;
 }
 
+type CreditCard = {
+    name: string;
+    number: string;
+    expiry: string;
+    cvv: string;
+}
+
+class PaymentService {
+    constructor(returnValue: boolean) {
+        this.returnValue = returnValue;
+    }
+
+    returnValue: boolean;
+
+    pay(amount: number, card: CreditCard): boolean {
+        return this.returnValue;
+    }
+}
+
 class Warehouse {
     constructor(public stockList: CompactDisc[]) {}
 
@@ -33,23 +52,43 @@ class Warehouse {
 class CD {
     constructor(public artist: string, public title: string, public stock: number, public price: number) {}
 
-    buy() {
-        if(this.stock > 0) {
-            this.stock--;
+    buy(payment: PaymentService, cardDetails: CreditCard) {
+        if(payment.pay(this.price, cardDetails)) {
+            if (this.stock > 0) {
+                this.stock--;
+            }
         }
     }
 }
 
 describe('Compact Disc', () => {
-    it('should be able to buy a CD', () => {
-        const cd = new CD('The Beatles', 'Abbey Road', 10, 9.99);
-        cd.buy();
-        expect(cd.stock).toBe(9);
-    });
-    it('should not be able to buy a CD if there are none left', () => {
-        const cd = new CD('The Beatles', 'Abbey Road', 0, 9.99);
-        cd.buy();
-        expect(cd.stock).toBe(0);
+    describe('buy', () => {
+        describe('payment accepted', () => {
+            it('should reduce stock by 1', () => {
+                const cd = new CD('The Beatles', 'Abbey Road', 1, 10);
+                const payment = new PaymentService(true);
+                const cardDetails = {
+                    name: 'John Doe',
+                    number: '1234 5678 9012 3456',
+                    expiry: '01/20',
+                    cvv: '123',
+                };
+                cd.buy(payment, cardDetails);
+                expect(cd.stock).toBe(0);
+            });
+            it('should not reduce stock if stock is 0', () => {
+                const cd = new CD('The Beatles', 'Abbey Road', 0, 10);
+                const payment = new PaymentService(true);
+                const cardDetails = {
+                    name: 'John Doe',
+                    number: '1234 5678 9012 3456',
+                    expiry: '01/20',
+                    cvv: '123',
+                };
+                cd.buy(payment, cardDetails);
+                expect(cd.stock).toBe(0);
+            });
+        });
     });
 })
 
