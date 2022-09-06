@@ -47,7 +47,7 @@ class Warehouse {
         return this.catalogue.filter((item) => item.title === title);
     }
 
-    getStockByArtist(artist: string) {
+    getCatalogueByArtist(artist: string) {
         return this.catalogue.filter((item) => item.artist === artist);
     }
 
@@ -148,8 +148,8 @@ describe('Warehouse', () => {
         const cd2 = new CD('The Beatles', 'Revolver', 10, 9.99);
         const cd3 = new CD('The Rolling Stones', 'Sticky Fingers', 10, 9.99);
         warehouse.addToCatalogue([cd1, cd2, cd3]);
-        expect(warehouse.getStockByArtist('The Beatles')).toContain(cd1);
-        expect(warehouse.getStockByArtist('The Beatles')).toContain(cd2);
-        expect(warehouse.getStockByArtist('The Rolling Stones')).toContain(cd3);
+        expect(warehouse.getCatalogueByArtist('The Beatles')).toContain(cd1);
+        expect(warehouse.getCatalogueByArtist('The Beatles')).toContain(cd2);
+        expect(warehouse.getCatalogueByArtist('The Rolling Stones')).toContain(cd3);
     });
 });
