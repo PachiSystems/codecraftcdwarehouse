@@ -89,6 +89,20 @@ describe('Compact Disc', () => {
                 expect(cd.stock).toBe(0);
             });
         });
+        describe('payment rejected', () => {
+            it('should not reduce stock', () => {
+                const cd = new CD('The Beatles', 'Abbey Road', 1, 10);
+                const payment = new PaymentService(false);
+                const cardDetails = {
+                    name: 'John Doe',
+                    number: '1234 5678 9012 3456',
+                    expiry: '01/20',
+                    cvv: '123',
+                };
+                cd.buy(payment, cardDetails);
+                expect(cd.stock).toBe(1);
+            });
+        });
     });
 })
 
