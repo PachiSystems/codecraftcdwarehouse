@@ -63,18 +63,20 @@ class CD {
 
     _reviews: Review[] = [];
 
-    buy(payment: PaymentService, cardDetails: CreditCard) {
+    buy(payment: PaymentService, cardDetails: CreditCard, qty: number = 1) {
         // Should the check be before the pay?
-            if (this.stock > 0) {
-                if(payment.pay(this.price, cardDetails)) {
-                    this.stock--;
-                } else {
-                    throw new Error('Payment failed');
-                }
+        if (this.stock >= qty) {
+            if(payment.pay(this.price, cardDetails)) {
+                this.chartServiceNotifier.notify(this.artist, this.title, qty)
+                this.stock -= qty;
             } else {
-                throw new Error("Out of stock");
+                throw new Error('Payment failed');
             }
+        } else {
+            throw new Error("Out of stock");
         }
+    }
+
     addReview(review: Review) {
         this._reviews.push(review);
     }
