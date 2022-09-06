@@ -25,30 +25,30 @@ class PaymentService {
 }
 
 class Warehouse {
-    constructor(public stockList: CompactDisc[]) {}
+    constructor(public catalogue: CompactDisc[]) {}
 
     addStock(cd: CompactDisc | CompactDisc[]) {
         if (Array.isArray(cd)) {
-            this.stockList = this.stockList.concat(cd);
+            this.catalogue = this.catalogue.concat(cd);
         } else {
-            this.stockList.push(cd);
+            this.catalogue.push(cd);
         }
     }
 
     removeStock(cd: CompactDisc) {
-        this.stockList = this.stockList.filter((item) => item !== cd);
+        this.catalogue = this.catalogue.filter((item) => item !== cd);
     }
 
     getStockList() {
-        return this.stockList;
+        return this.catalogue;
     }
 
     getStockByTitle(title: string) {
-        return this.stockList.filter((item) => item.title === title);
+        return this.catalogue.filter((item) => item.title === title);
     }
 
     getStockByArtist(artist: string) {
-        return this.stockList.filter((item) => item.artist === artist);
+        return this.catalogue.filter((item) => item.artist === artist);
     }
 
 }
@@ -57,6 +57,7 @@ class CD {
     constructor(public artist: string, public title: string, public stock: number, public price: number) {}
 
     buy(payment: PaymentService, cardDetails: CreditCard) {
+        // Should the check be before the pay?
         if(payment.pay(this.price, cardDetails)) {
             if (this.stock > 0) {
                 this.stock--;
