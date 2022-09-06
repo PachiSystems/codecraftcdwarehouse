@@ -27,8 +27,12 @@ class PaymentService {
 class Warehouse {
     constructor(public stockList: CompactDisc[]) {}
 
-    addStock(cd: CompactDisc) {
-        this.stockList.push(cd);
+    addStock(cd: CompactDisc | CompactDisc[]) {
+        if (Array.isArray(cd)) {
+            this.stockList = this.stockList.concat(cd);
+        } else {
+            this.stockList.push(cd);
+        }
     }
 
     removeStock(cd: CompactDisc) {
@@ -113,6 +117,14 @@ describe('Warehouse', () => {
         const cd = new CD('The Beatles', 'Abbey Road', 10, 9.99);
         warehouse.addStock(cd);
         expect(warehouse.getStockList()).toContain(cd);
+    });
+    it('should be able to add multiple CDs to the stock list', () => {
+        const warehouse = new Warehouse([]);
+        const cd1 = new CD('The Beatles', 'Abbey Road', 10, 9.99);
+        const cd2 = new CD('The Beatles', 'Revolver', 10, 9.99);
+        warehouse.addStock([cd1, cd2]);
+        expect(warehouse.getStockList()).toContain(cd1);
+        expect(warehouse.getStockList()).toContain(cd2);
     });
     it('should be able to remove a CD from the stock list', () => {
         const warehouse = new Warehouse([]);
