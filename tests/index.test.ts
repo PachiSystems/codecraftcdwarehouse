@@ -12,6 +12,11 @@ type CreditCard = {
     cvv: string;
 }
 
+type Review = {
+    rating: number;
+    comment: string;
+}
+
 class PaymentService {
     constructor(returnValue: boolean) {
         this.returnValue = returnValue;
@@ -56,6 +61,8 @@ class Warehouse {
 class CD {
     constructor(public artist: string, public title: string, public stock: number, public price: number) {}
 
+    _reviews: Review[] = [];
+
     buy(payment: PaymentService, cardDetails: CreditCard) {
         // Should the check be before the pay?
             if (this.stock > 0) {
@@ -68,6 +75,12 @@ class CD {
                 throw new Error("Out of stock");
             }
         }
+    addReview(review: Review) {
+        this._reviews.push(review);
+    }
+    getReviews() {
+        return this._reviews;
+    }
 }
 
 describe('Compact Disc', () => {
@@ -111,6 +124,18 @@ describe('Compact Disc', () => {
             });
         });
     });
+    describe('add review', () => {
+        it('should add a review to the cd', () => {
+            const cd = new CD('The Beatles', 'Abbey Road', 1, 10);
+            const review = {
+                rating: 5,
+                comment: 'Great album',
+            };
+            cd.addReview(review);
+            expect(cd.getReviews()).toContainEqual(review);
+        });
+    });
+
 })
 
 describe('Warehouse', () => {
