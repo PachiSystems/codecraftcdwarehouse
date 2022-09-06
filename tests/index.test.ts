@@ -35,11 +35,11 @@ class Warehouse {
         }
     }
 
-    removeStock(cd: CompactDisc) {
+    removeFromCatalogue(cd: CompactDisc) {
         this.catalogue = this.catalogue.filter((item) => item !== cd);
     }
 
-    getStockList() {
+    getCatalogue() {
         return this.catalogue;
     }
 
@@ -117,22 +117,22 @@ describe('Warehouse', () => {
         const warehouse = new Warehouse([]);
         const cd = new CD('The Beatles', 'Abbey Road', 10, 9.99);
         warehouse.addToCatalogue(cd);
-        expect(warehouse.getStockList()).toContain(cd);
+        expect(warehouse.getCatalogue()).toContain(cd);
     });
     it('should be able to add multiple CDs to the stock list', () => {
         const warehouse = new Warehouse([]);
         const cd1 = new CD('The Beatles', 'Abbey Road', 10, 9.99);
         const cd2 = new CD('The Beatles', 'Revolver', 10, 9.99);
         warehouse.addToCatalogue([cd1, cd2]);
-        expect(warehouse.getStockList()).toContain(cd1);
-        expect(warehouse.getStockList()).toContain(cd2);
+        expect(warehouse.getCatalogue()).toContain(cd1);
+        expect(warehouse.getCatalogue()).toContain(cd2);
     });
     it('should be able to remove a CD from the stock list', () => {
         const warehouse = new Warehouse([]);
         const cd = new CD('The Beatles', 'Abbey Road', 10, 9.99);
         warehouse.addToCatalogue(cd);
-        warehouse.removeStock(cd);
-        expect(warehouse.getStockList()).not.toContain(cd);
+        warehouse.removeFromCatalogue(cd);
+        expect(warehouse.getCatalogue()).not.toContain(cd);
     });
     it('should be able to get a list of CDs by title', () => {
         const warehouse = new Warehouse([]);
