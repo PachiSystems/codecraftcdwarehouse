@@ -135,22 +135,19 @@ describe('Warehouse', () => {
     });
     it('should be able to get a list of CDs by title', () => {
         const warehouse = new Warehouse([]);
-        const cd = new CD('The Beatles', 'Abbey Road', 10, 9.99);
+        const cd1 = new CD('The Beatles', 'Abbey Road', 10, 9.99);
         const cd2 = new CD('The Beatles', 'Revolver', 10, 9.99);
-        warehouse.addStock(cd);
-        warehouse.addStock(cd2);
-        expect(warehouse.getStockByTitle('Abbey Road')).toContain(cd);
+        warehouse.addStock([cd1, cd2]);
+        expect(warehouse.getStockByTitle('Abbey Road')).toContain(cd1);
         expect(warehouse.getStockByTitle('Revolver')).toContain(cd2);
     });
     it('should be able to get a list of CDs by artist', () => {
         const warehouse = new Warehouse([]);
-        const cd = new CD('The Beatles', 'Abbey Road', 10, 9.99);
+        const cd1 = new CD('The Beatles', 'Abbey Road', 10, 9.99);
         const cd2 = new CD('The Beatles', 'Revolver', 10, 9.99);
         const cd3 = new CD('The Rolling Stones', 'Sticky Fingers', 10, 9.99);
-        warehouse.addStock(cd);
-        warehouse.addStock(cd2);
-        warehouse.addStock(cd3);
-        expect(warehouse.getStockByArtist('The Beatles')).toContain(cd);
+        warehouse.addStock([cd1, cd2, cd3]);
+        expect(warehouse.getStockByArtist('The Beatles')).toContain(cd1);
         expect(warehouse.getStockByArtist('The Beatles')).toContain(cd2);
         expect(warehouse.getStockByArtist('The Rolling Stones')).toContain(cd3);
     });
